@@ -6,7 +6,8 @@ import fs from "fs";
 export async function GET() {
   try {
     // Resolve absolute path to the SQLite database
-    const dbPath = path.join(process.cwd(), "../backend/mantle_nexus.db");
+
+    const dbPath = path.join(process.cwd(), 'mantle_nexus.db');
 
     // Check if database file exists before attempting to connect
     if (!fs.existsSync(dbPath)) {
