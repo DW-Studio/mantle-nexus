@@ -24,6 +24,22 @@ const truncateAddress = (addr: string) =>
 
 const formatMNT = (amount: number) => amount.toFixed(4);
 
+/* ── Markdown Renderer ──────────────────────────────────── */
+
+const renderMarkdown = (text: string): React.ReactNode => {
+  const parts = text.split(/(\*\*.*?\*\*)/);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <span key={i} className="font-bold text-cyan-400">
+          {part.slice(2, -2)}
+        </span>
+      );
+    }
+    return part;
+  });
+};
+
 /* ── Component ──────────────────────────────────────────── */
 
 export default function Dashboard() {
@@ -100,8 +116,12 @@ export default function Dashboard() {
         <h1 className="text-2xl tracking-widest text-green-400 font-bold">
           MANTLE-NEXUS // INTELLIGENCE FEED
         </h1>
-        <p className="text-xs text-zinc-500 mt-1 tracking-widest">
-          LIVE · MONITORING · SMART · MONEY
+        <p className="text-xs text-zinc-500 mt-1 tracking-widest flex items-center gap-1">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            LIVE
+          </span>
+          &nbsp;· MONITORING · SMART · MONEY
         </p>
       </header>
 
@@ -174,20 +194,20 @@ export default function Dashboard() {
                 </div>
 
                 {/* Details row */}
-                <div className="grid grid-cols-3 gap-4 text-xs mb-3">
-                  <div>
+                <div className="flex flex-col md:flex-row gap-4 text-xs mb-3">
+                  <div className="md:w-1/3">
                     <span className="text-zinc-500 block">SENDER</span>
                     <span className="text-cyan-400">
                       {truncateAddress(insight.sender)}
                     </span>
                   </div>
-                  <div>
+                  <div className="md:w-1/3">
                     <span className="text-zinc-500 block">RECEIVER</span>
                     <span className="text-cyan-400">
                       {truncateAddress(insight.receiver)}
                     </span>
                   </div>
-                  <div className="text-right">
+                  <div className="md:w-1/3 md:text-right">
                     <span className="text-zinc-500 block">AMOUNT</span>
                     <span className="text-green-400 font-bold">
                       {formatMNT(insight.amount_mnt)} MNT
@@ -201,7 +221,7 @@ export default function Dashboard() {
                     AI ASSESSMENT
                   </span>
                   <p className="text-sm text-white leading-relaxed">
-                    {insight.ai_assessment}
+                    {renderMarkdown(insight.ai_assessment)}
                   </p>
                 </div>
               </div>

@@ -286,7 +286,11 @@ def main():
                     f"Sender: {sender}, Receiver: {receiver}, Amount: {value_mnt} MNT. "
                     f"As a Web3 data analyst, give a 1-sentence quick assessment of "
                     f"whether this is a whale movement, regular user activity, "
-                    f"or contract interaction."
+                    f"or contract interaction.\n\n"
+                    f"CRITICAL FORMATTING RULE: You MUST wrap the core classification "
+                    f"in double asterisks. For example: **Whale Movement**, "
+                    f"**Regular User Activity**, or **Contract Interaction**. "
+                    f"Do not omit the asterisks — they are required for frontend parsing."
                 )
 
                 # --- Call DeepSeek API (OpenAI-compatible) ---
