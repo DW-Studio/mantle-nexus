@@ -190,141 +190,155 @@ def main():
 
     last_processed_block = None
 
+    last_processed_block = None
+
     try:
         while True:
-            # --- Fetch the latest block ---
-            block = send_rpc("eth_getBlockByNumber", ["latest", False])
-            block_data = block.get("result", {})
-
-            block_number_hex = block_data.get("number", "0x0")
-            block_number = int(block_number_hex, 16)
-            tx_hashes = block_data.get("transactions", [])
-
-            # --- Block dedup: skip if we've already processed this block ---
-            if last_processed_block is not None and block_number <= last_processed_block:
-                time.sleep(2)
-                continue
-
-            last_processed_block = block_number
-            print(f"\n  [MANTLE-NEXUS] Scanning Block #{block_number} ({block_number_hex})")
-            print(f"  [+] Transactions in block: {len(tx_hashes)}")
-            print("-" * 60)
-
-            if not tx_hashes:
-                print("\n  [!] No transactions found in this block.")
-                print("-" * 60)
-                time.sleep(2)
-                continue
-
-            # --- Loop through transactions to find a real native MNT transfer ---
-            SYSTEM_PREFIXES = ("0xdead", "0x4200")
-
-            target_tx = None
-            tx_hash = None
-
-            for tx_hash_str in tx_hashes:
-                tx_detail = send_rpc("eth_getTransactionByHash", [tx_hash_str])
-                tx_data = tx_detail.get("result", {})
-
-                if not tx_data:
-                    continue
-
-                sender_addr = tx_data.get("from", "").lower()
-
-                # Skip system contracts (0xdead... or 0x4200...)
-                if sender_addr.startswith(SYSTEM_PREFIXES):
-                    continue
-
-                # Skip contract creations (to is None) or system contract receivers
-                receiver_addr = tx_data.get("to")
-                if receiver_addr is None:
-                    continue
-                if receiver_addr.lower().startswith(SYSTEM_PREFIXES):
-                    continue
-
-                # Skip zero-value transactions (no native MNT transfer)
-                value_hex = tx_data.get("value", "0x0")
-                value_wei = int(value_hex, 16)
-                if value_wei == 0:
-                    continue
-
-                # Real native MNT transfer — target acquired!
-                target_tx = tx_data
-                tx_hash = tx_hash_str
-                break
-
-            if target_tx is None:
-                print("\n  [MANTLE-NEXUS] No native MNT transfers in this block. Skipping...")
-                print("-" * 60)
-                time.sleep(2)
-                continue
-
-            print(f"\n  [MANTLE-NEXUS] Target Acquired: {tx_hash}")
-
-            sender = target_tx.get("from", "unknown")
-            receiver = target_tx.get("to", "unknown")
-            value_hex = target_tx.get("value", "0x0")
-            value_wei = int(value_hex, 16)
-            value_mnt = value_wei / 1e18
-
-            print(f"  [MANTLE-NEXUS] Sender:   {sender}")
-            print(f"  [MANTLE-NEXUS] Receiver: {receiver}")
-            print(f"  [MANTLE-NEXUS] Value:    {value_mnt:.18f} MNT")
-            print("-" * 60)
-
-            # --- Construct the LLM prompt ---
-            prompt = (
-                f"An on-chain transaction just occurred on Mantle Network. "
-                f"Sender: {sender}, Receiver: {receiver}, Amount: {value_mnt} MNT. "
-                f"As a Web3 data analyst, give a 1-sentence quick assessment of "
-                f"whether this is a whale movement, regular user activity, "
-                f"or contract interaction."
-            )
-
-            # --- Call DeepSeek API (OpenAI-compatible) ---
-            print("  [MANTLE-NEXUS] Requesting AI assessment from DeepSeek...")
-            client = OpenAI(
-                api_key=api_key,
-                base_url="https://api.deepseek.com"
-            )
-
-            response = client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[{"role": "user", "content": prompt}],
-                timeout=30
-            )
-
-            assessment = response.choices[0].message.content.strip()
-            print(f"\n  [MANTLE-NEXUS AI INSIGHT] {assessment}")
-
-            # --- Persist to local SQLite ---
-            conn = init_db()
-            save_insight(conn, tx_hash, sender, receiver, value_mnt, assessment)
-            print("  [MANTLE-NEXUS] Data saved to local SQLite DB.")
-
-            # --- Export latest insights to static JSON for frontend ---
-            export_insights_to_json(conn)
-
-            conn.close()
-
-            # --- Stamp insight on-chain via NexusLedger ---
             try:
-                tx = contract.functions.recordInsight(tx_hash, assessment).build_transaction({
-                    "from": account.address,
-                    "nonce": w3.eth.get_transaction_count(account.address),
-                })
-                signed_tx = account.sign_transaction(tx)
-                tx_hash_onchain = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
-                receipt = w3.eth.wait_for_transaction_receipt(tx_hash_onchain)
-                print(f"  [MANTLE-NEXUS] 🔗 AI Insight permanently stamped on-chain! Tx: {tx_hash_onchain.hex()}")
-            except Exception as e:
-                print(f"  [MANTLE-NEXUS] ⚠️ On-chain write skipped (RPC rate-limit or error): {e}")
+                # --- Fetch the latest block ---
+                block = send_rpc("eth_getBlockByNumber", ["latest", False])
+                block_data = block.get("result", {})
 
-            print("\n" + "-" * 60)
-            print("  [MANTLE-NEXUS] Cycle complete. Waiting for next block...")
-            print("-" * 60)
+                block_number_hex = block_data.get("number", "0x0")
+                block_number = int(block_number_hex, 16)
+                tx_hashes = block_data.get("transactions", [])
 
-            time.sleep(2)
+                # --- Block dedup: skip if we've already processed this block ---
+                if last_processed_block is not None and block_number <= last_processed_block:
+                    time.sleep(2)
+                    continue
+
+                last_processed_block = block_number
+                print(f"\n  [MANTLE-NEXUS] Scanning Block #{block_number} ({block_number_hex})")
+                print(f"  [+] Transactions in block: {len(tx_hashes)}")
+                print("-" * 60)
+
+                if not tx_hashes:
+                    print("\n  [!] No transactions found in this block.")
+                    print("-" * 60)
+                    time.sleep(2)
+                    continue
+
+                # --- Loop through transactions to find a real native MNT transfer ---
+                SYSTEM_PREFIXES = ("0xdead", "0x4200")
+
+                target_tx = None
+                tx_hash = None
+
+                for tx_hash_str in tx_hashes:
+                    try:
+                        tx_detail = send_rpc("eth_getTransactionByHash", [tx_hash_str])
+                    except Exception as rpc_err:
+                        # Single transaction lookup failed — skip this tx, try next
+                        print(f"  [!] RPC error fetching tx {tx_hash_str}: {rpc_err}")
+                        continue
+                    tx_data = tx_detail.get("result", {})
+
+                    if not tx_data:
+                        continue
+
+                    sender_addr = tx_data.get("from", "").lower()
+
+                    # Skip system contracts (0xdead... or 0x4200...)
+                    if sender_addr.startswith(SYSTEM_PREFIXES):
+                        continue
+
+                    # Skip contract creations (to is None) or system contract receivers
+                    receiver_addr = tx_data.get("to")
+                    if receiver_addr is None:
+                        continue
+                    if receiver_addr.lower().startswith(SYSTEM_PREFIXES):
+                        continue
+
+                    # Skip zero-value transactions (no native MNT transfer)
+                    value_hex = tx_data.get("value", "0x0")
+                    value_wei = int(value_hex, 16)
+                    if value_wei == 0:
+                        continue
+
+                    # Real native MNT transfer — target acquired!
+                    target_tx = tx_data
+                    tx_hash = tx_hash_str
+                    break
+
+                if target_tx is None:
+                    print("\n  [MANTLE-NEXUS] No native MNT transfers in this block. Skipping...")
+                    print("-" * 60)
+                    time.sleep(2)
+                    continue
+
+                print(f"\n  [MANTLE-NEXUS] Target Acquired: {tx_hash}")
+
+                sender = target_tx.get("from", "unknown")
+                receiver = target_tx.get("to", "unknown")
+                value_hex = target_tx.get("value", "0x0")
+                value_wei = int(value_hex, 16)
+                value_mnt = value_wei / 1e18
+
+                print(f"  [MANTLE-NEXUS] Sender:   {sender}")
+                print(f"  [MANTLE-NEXUS] Receiver: {receiver}")
+                print(f"  [MANTLE-NEXUS] Value:    {value_mnt:.18f} MNT")
+                print("-" * 60)
+
+                # --- Construct the LLM prompt ---
+                prompt = (
+                    f"An on-chain transaction just occurred on Mantle Network. "
+                    f"Sender: {sender}, Receiver: {receiver}, Amount: {value_mnt} MNT. "
+                    f"As a Web3 data analyst, give a 1-sentence quick assessment of "
+                    f"whether this is a whale movement, regular user activity, "
+                    f"or contract interaction."
+                )
+
+                # --- Call DeepSeek API (OpenAI-compatible) ---
+                print("  [MANTLE-NEXUS] Requesting AI assessment from DeepSeek...")
+                client = OpenAI(
+                    api_key=api_key,
+                    base_url="https://api.deepseek.com"
+                )
+
+                response = client.chat.completions.create(
+                    model="deepseek-chat",
+                    messages=[{"role": "user", "content": prompt}],
+                    timeout=30
+                )
+
+                assessment = response.choices[0].message.content.strip()
+                print(f"\n  [MANTLE-NEXUS AI INSIGHT] {assessment}")
+
+                # --- Persist to local SQLite ---
+                conn = init_db()
+                save_insight(conn, tx_hash, sender, receiver, value_mnt, assessment)
+                print("  [MANTLE-NEXUS] Data saved to local SQLite DB.")
+
+                # --- Export latest insights to static JSON for frontend ---
+                export_insights_to_json(conn)
+
+                conn.close()
+
+                # --- Stamp insight on-chain via NexusLedger ---
+                try:
+                    tx = contract.functions.recordInsight(tx_hash, assessment).build_transaction({
+                        "from": account.address,
+                        "nonce": w3.eth.get_transaction_count(account.address),
+                    })
+                    signed_tx = account.sign_transaction(tx)
+                    tx_hash_onchain = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
+                    receipt = w3.eth.wait_for_transaction_receipt(tx_hash_onchain)
+                    print(f"  [MANTLE-NEXUS] 🔗 AI Insight permanently stamped on-chain! Tx: {tx_hash_onchain.hex()}")
+                except Exception as e:
+                    print(f"  [MANTLE-NEXUS] ⚠️ On-chain write skipped (RPC rate-limit or error): {e}")
+
+                print("\n" + "-" * 60)
+                print("  [MANTLE-NEXUS] Cycle complete. Waiting for next block...")
+                print("-" * 60)
+
+                time.sleep(2)
+
+            except Exception as cycle_err:
+                # Catch any transient error (DNS, RPC timeout, etc.) and keep the loop alive
+                print(f"\n  [!] ⚡ Transient error, restarting cycle in 5s: {cycle_err}")
+                print("-" * 60)
+                time.sleep(5)
 
     except KeyboardInterrupt:
         print("\n\n  [MANTLE-NEXUS] Shutting down gracefully. Goodbye!")
