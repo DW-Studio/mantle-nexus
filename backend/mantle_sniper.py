@@ -117,6 +117,36 @@ def save_insight(conn, tx_hash, sender, receiver, amount_mnt, assessment):
         pass
 
 
+def export_insights_to_json(conn):
+    """Query the latest 20 insights and overwrite ../frontend/public/insights.json."""
+    cursor = conn.execute(
+        "SELECT id, tx_hash, sender, receiver, amount_mnt, ai_assessment, timestamp "
+        "FROM insights ORDER BY timestamp DESC LIMIT 20"
+    )
+    rows = cursor.fetchall()
+
+    insights = []
+    for row in rows:
+        insights.append({
+            "id": row[0],
+            "tx_hash": row[1],
+            "sender": row[2],
+            "receiver": row[3],
+            "amount_mnt": row[4],
+            "ai_assessment": row[5],
+            "timestamp": row[6],
+        })
+
+    # Resolve path relative to this script's location
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_path = os.path.join(script_dir, "..", "frontend", "public", "insights.json")
+
+    with open(output_path, "w") as f:
+        json.dump(insights, f, indent=2)
+
+    print(f"  [MANTLE-NEXUS] JSON exported ({len(insights)} insights) → {output_path}")
+
+
 def main():
     load_dotenv()
 
@@ -270,8 +300,12 @@ def main():
             # --- Persist to local SQLite ---
             conn = init_db()
             save_insight(conn, tx_hash, sender, receiver, value_mnt, assessment)
-            conn.close()
             print("  [MANTLE-NEXUS] Data saved to local SQLite DB.")
+
+            # --- Export latest insights to static JSON for frontend ---
+            export_insights_to_json(conn)
+
+            conn.close()
 
             # --- Stamp insight on-chain via NexusLedger ---
             try:

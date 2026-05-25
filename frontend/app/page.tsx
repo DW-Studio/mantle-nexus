@@ -36,7 +36,7 @@ export default function Dashboard() {
 
     const fetchInsights = async () => {
       try {
-        const res = await fetch("/api/insights");
+        const res = await fetch("/insights.json");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: Insight[] = await res.json();
         if (!cancelled) {
