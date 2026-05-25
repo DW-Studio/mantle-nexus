@@ -1,5 +1,23 @@
 [
   {
+    "id": 36,
+    "tx_hash": "0xad595c3a61fbbc543299d9091a06c7a11457786c5b73b3b9f1b97459531f93b6",
+    "sender": "0xeda854c6982c66d486ce7af807e0177811f4f6c4",
+    "receiver": "0x9ef6d3c2f60d7b9008d74cab1fc0f899c957c819",
+    "amount_mnt": 300.4102851851754,
+    "ai_assessment": "**Regular User Activity** \u2014 300 MNT (~$200\u2013300) is well below typical whale thresholds for Mantle Network, where whale movements usually exceed 10,000 MNT, and there is no obvious contract interaction in the receiver address.",
+    "timestamp": "2026-05-25 10:38:34"
+  },
+  {
+    "id": 35,
+    "tx_hash": "0x07ea086c6e447ad1df1592e495063b831b24312eef762fac10db704692e4df38",
+    "sender": "0x0000004eba872864a71b957180eb17dff71bb8f1",
+    "receiver": "0x7647b72b4c89446f7d86bb7a30fd51b6d91577aa",
+    "amount_mnt": 1274.3133268060362,
+    "ai_assessment": "**Contract Interaction**",
+    "timestamp": "2026-05-25 10:36:22"
+  },
+  {
     "id": 34,
     "tx_hash": "0x4d4365ce1b8bfff6752f68bb7da88a6cba7dd01a4e857b86b282723b9a0e3ccc",
     "sender": "0xd3dc98a4eb167d3f171a34d3f9e2d61b636fd9ee",
@@ -160,23 +178,5 @@
     "amount_mnt": 1.2,
     "ai_assessment": "This is likely a **regular user activity** transfer, as 1.2 MNT (worth roughly $1\u20132 depending on price) is far below typical whale thresholds and well within retail-sized amounts.",
     "timestamp": "2026-05-23 02:09:39"
-  },
-  {
-    "id": 16,
-    "tx_hash": "0xfb365151793f142591b6beff15fdbedaed64c3637e25d2bfc2e268bd03362d21",
-    "sender": "0x561a8431b23fe6a524ce874a029cdaadc9642bf4",
-    "receiver": "0xeaee7ee68874218c3558b40063c42b82d3e7232a",
-    "amount_mnt": 0.154559,
-    "ai_assessment": "This is regular user activity, as 0.154559 MNT (worth approximately $0.10\u2013$0.15) is far below the threshold for whale movements and does not involve a contract address.",
-    "timestamp": "2026-05-23 02:08:51"
-  },
-  {
-    "id": 15,
-    "tx_hash": "0xcdc371748d1676fcd2b53528a5299935d945ec1f95556f414e15d27d3e017cb6",
-    "sender": "0x588846213a30fd36244e0ae0ebb2374516da836c",
-    "receiver": "0x95caf56ce69d26597e2f8bfa16d611c90f2a69ec",
-    "amount_mnt": 439.199669,
-    "ai_assessment": "This is a **whale movement**, as the transfer of **439.2 MNT** (~$400\u2013500 USD at current Mantle prices) falls within the range of significant individual transfers typically executed by institutional or high-net-worth addresses.",
-    "timestamp": "2026-05-23 02:07:13"
   }
 ]
