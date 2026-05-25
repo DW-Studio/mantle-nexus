@@ -1,0 +1,182 @@
+[
+  {
+    "id": 29,
+    "tx_hash": "0x3bad8adcbf0d36a719dea1499f0815904511144864a4c27f427312bacf72ba31",
+    "sender": "0xc69183bf9584b84305f8a8bebdd201235603cfbd",
+    "receiver": "0x9ef6d3c2f60d7b9008d74cab1fc0f899c957c819",
+    "amount_mnt": 65.0,
+    "ai_assessment": "This is a **regular user activity** transfer, as 65 MNT (\u2248$50-60 at current prices) is far below the typical whale threshold (1,000+ MNT) and lacks characteristics of a contract interaction.",
+    "timestamp": "2026-05-24 01:30:54"
+  },
+  {
+    "id": 28,
+    "tx_hash": "0x837ffb5c88a588ed13740e17a1cf6b969bae3a3424a66be8522630edce0bd209",
+    "sender": "0x35f5bcf3531fac6f70f98a386a8ca452dd5c10df",
+    "receiver": "0x7f8e7cc694e34bd9428029f6c05f97f7e8891d4e",
+    "amount_mnt": 0.08412960153069336,
+    "ai_assessment": "This is regular user activity, as the amount of 0.084 MNT is negligible for whale movements and aligns with typical meter-level transactions rather than a large-scale transfer or contract call.",
+    "timestamp": "2026-05-23 02:29:35"
+  },
+  {
+    "id": 27,
+    "tx_hash": "0x14bdfccd96fee3b05a29c0e3fe9c43ff54e5438679021f0c2f4aec221a252ed1",
+    "sender": "0x588846213a30fd36244e0ae0ebb2374516da836c",
+    "receiver": "0xfcb1feec7887382e5b545ec535fc0321e2c8a227",
+    "amount_mnt": 205.0,
+    "ai_assessment": "This is likely a **regular user activity** or small transfer, as 205 MNT (worth roughly $150\u2013$300 depending on MNT price) is well below typical whale thresholds (usually 10,000+ MNT or $50k+), and the sender/receiver are EOAs (externally owned accounts) rather than contracts.",
+    "timestamp": "2026-05-23 02:26:53"
+  },
+  {
+    "id": 26,
+    "tx_hash": "0x5345ac5fd8446d6f0c506dd4b265700b57131d1ec560a31f959a880eb0f61006",
+    "sender": "0x9256c985e004f5f535fb66847b6cbc3e593781a3",
+    "receiver": "0x8e60b7b64b63cd56b18ebcecadcb79b04919286e",
+    "amount_mnt": 0.15981098798760948,
+    "ai_assessment": "This appears to be **regular user activity**, as 0.16 MNT (~$0.15 based on typical MNT prices) is far below the threshold for whale movements (usually $100k+) and the amount lacks the typical precision or zero-value pattern of a contract interaction.",
+    "timestamp": "2026-05-23 02:20:54"
+  },
+  {
+    "id": 25,
+    "tx_hash": "0x375f1e73fb1541f5f9883c4fd5612269a16198bcba42940eff2437f80dc6a003",
+    "sender": "0x4ab1d67c71520783e6181c0f108cf377ddc5fc49",
+    "receiver": "0x9256c985e004f5f535fb66847b6cbc3e593781a3",
+    "amount_mnt": 0.33,
+    "ai_assessment": "This is **regular user activity** (and possibly a contract interaction), as 0.33 MNT (~$0.30\u2013$0.40) is far below whale threshold, and the recipient address `0x9256c985e004f5f535fb66847b6cbc3e593781a3` is a known contract (likely a DEX or bridge), indicating a routine swap or transfer rather than a personal wallet movement.",
+    "timestamp": "2026-05-23 02:18:36"
+  },
+  {
+    "id": 24,
+    "tx_hash": "0x6cc7c2dad4f71f52f91e822143a23feff1303dfcb164153c8230744bb8784d96",
+    "sender": "0x8c826f795466e39acbff1bb4eeeb759609377ba1",
+    "receiver": "0x4ab1d67c71520783e6181c0f108cf377ddc5fc49",
+    "amount_mnt": 0.3332542008616092,
+    "ai_assessment": "This is a **regular user activity** transaction, as the amount of 0.333 MNT is worth only a few dollars (less than $1\u2013$3 depending on MNT\u2019s price), far below whale thresholds and not an obviously standardized contract function call from the addresses.",
+    "timestamp": "2026-05-23 02:17:50"
+  },
+  {
+    "id": 23,
+    "tx_hash": "0x1a6b8d38a8ba41d0ad60aa88b67732086c200caaf1e738ac38b12870dd5c36ea",
+    "sender": "0xb02a6b8a22f8a0d1e9e9c2212bdc375bfdc4a445",
+    "receiver": "0x4afabff0006d97296a95adad24d86414111ca565",
+    "amount_mnt": 0.103,
+    "ai_assessment": "This is a **regular user activity**, as the 0.103 MNT transfer (~$0.10-$0.12) is a negligible retail amount with no whale significance or contract function signature.",
+    "timestamp": "2026-05-23 02:17:06"
+  },
+  {
+    "id": 22,
+    "tx_hash": "0xe50c2def5ddda6599c9033c8c14bdccf0ec4ec2b64a0e12de6905e90b84b2be7",
+    "sender": "0x2346a8fbb862e58cb85c652a14cbe79c178fdfea",
+    "receiver": "0x2689dec7f57719c997268062b046cb0d016eb30a",
+    "amount_mnt": 3.8498832751983114,
+    "ai_assessment": "This is a **regular user activity** transfer, as 3.85 MNT (~$2\u20133 USD) is negligible relative to whale thresholds (>10k MNT) and lacks evidence of a contract event or internal swap logic.",
+    "timestamp": "2026-05-23 02:15:35"
+  },
+  {
+    "id": 21,
+    "tx_hash": "0x8db4f16e75490774ae341efcf8ad71ad4979a84d53ad2db8614be70e4c1e2610",
+    "sender": "0x2689dec7f57719c997268062b046cb0d016eb30a",
+    "receiver": "0x2346a8fbb862e58cb85c652a14cbe79c178fdfea",
+    "amount_mnt": 1.878791994276823,
+    "ai_assessment": "This is regular user activity, as 1.88 MNT (~$1\u2013$2 depending on price) is a negligible amount far below typical whale thresholds and lacks the pattern of a high-frequency contract interaction.",
+    "timestamp": "2026-05-23 02:15:31"
+  },
+  {
+    "id": 20,
+    "tx_hash": "0xe4d0053a845ca11ae0a7b62bac72bac367e4ce249d01e1ff8a9f2455fa1323e4",
+    "sender": "0x22ad48985109de1b767dc6ee39b80974dba1eb12",
+    "receiver": "0x0d4dc3b8becc98782309e443a6da4b9455b5ca48",
+    "amount_mnt": 83.9637,
+    "ai_assessment": "This is likely a regular user activity or small-scale transfer, as 83.96 MNT (~$50\u2013$80 USD at current prices) is far below typical whale thresholds (\u226510,000 MNT) and doesn't match the value or pattern of a contract interaction.",
+    "timestamp": "2026-05-23 02:14:06"
+  },
+  {
+    "id": 19,
+    "tx_hash": "0xe539e1d8979d8dda6c5137f5a8120bc5ef73785204c23c5eeeafa2a8a4699d48",
+    "sender": "0xd5dcf2aa0a33f4e9239abe666c79f05ed464a4ff",
+    "receiver": "0x0d0a1ac85183c656f3c1870c2aad4f3fa4707717",
+    "amount_mnt": 70.0,
+    "ai_assessment": "This is likely **regular user activity**, as 70 MNT (~$40-50 USD at current prices) is far below typical whale thresholds (usually 10,000+ MNT) and doesn\u2019t match the gas-heavy patterns or distinct addresses of contract deployments.",
+    "timestamp": "2026-05-23 02:12:56"
+  },
+  {
+    "id": 18,
+    "tx_hash": "0xe64468b2d84ea240455dd1cc62a790ff835d9487399cad780ae3bbe396157f29",
+    "sender": "0x561a8431b23fe6a524ce874a029cdaadc9642bf4",
+    "receiver": "0xeaee7ee68874218c3558b40063c42b82d3e7232a",
+    "amount_mnt": 0.750507,
+    "ai_assessment": "This is likely a **regular user activity** (not a whale movement or contract interaction), as the amount of 0.75 MNT (roughly worth under $1 at current prices) is modest and the transfer is between two externally owned accounts (EOAs) with no calldata.",
+    "timestamp": "2026-05-23 02:10:12"
+  },
+  {
+    "id": 17,
+    "tx_hash": "0xd05207afd6f0496d001daf5b8438a4b2a09c15b921a2fe54bca1dab4f282f370",
+    "sender": "0x561a8431b23fe6a524ce874a029cdaadc9642bf4",
+    "receiver": "0x45a62b090df48243f12a21897e7ed91863e2c86b",
+    "amount_mnt": 1.2,
+    "ai_assessment": "This is likely a **regular user activity** transfer, as 1.2 MNT (worth roughly $1\u20132 depending on price) is far below typical whale thresholds and well within retail-sized amounts.",
+    "timestamp": "2026-05-23 02:09:39"
+  },
+  {
+    "id": 16,
+    "tx_hash": "0xfb365151793f142591b6beff15fdbedaed64c3637e25d2bfc2e268bd03362d21",
+    "sender": "0x561a8431b23fe6a524ce874a029cdaadc9642bf4",
+    "receiver": "0xeaee7ee68874218c3558b40063c42b82d3e7232a",
+    "amount_mnt": 0.154559,
+    "ai_assessment": "This is regular user activity, as 0.154559 MNT (worth approximately $0.10\u2013$0.15) is far below the threshold for whale movements and does not involve a contract address.",
+    "timestamp": "2026-05-23 02:08:51"
+  },
+  {
+    "id": 15,
+    "tx_hash": "0xcdc371748d1676fcd2b53528a5299935d945ec1f95556f414e15d27d3e017cb6",
+    "sender": "0x588846213a30fd36244e0ae0ebb2374516da836c",
+    "receiver": "0x95caf56ce69d26597e2f8bfa16d611c90f2a69ec",
+    "amount_mnt": 439.199669,
+    "ai_assessment": "This is a **whale movement**, as the transfer of **439.2 MNT** (~$400\u2013500 USD at current Mantle prices) falls within the range of significant individual transfers typically executed by institutional or high-net-worth addresses.",
+    "timestamp": "2026-05-23 02:07:13"
+  },
+  {
+    "id": 14,
+    "tx_hash": "0x8af5118fe4f6505710be5ee8755c74020245f0a52276fcc339c51faa55fa388f",
+    "sender": "0xf5f3ef3787a1c068c8cafef35f07fa784977bea1",
+    "receiver": "0x9627a67db75eaadc8eac55b365cd33818df63ccb",
+    "amount_mnt": 1.0,
+    "ai_assessment": "This is likely regular user activity, as 1.0 MNT is a negligible amount (worth under $1) that does not align with typical whale movements or common contract funding patterns.",
+    "timestamp": "2026-05-23 02:06:41"
+  },
+  {
+    "id": 13,
+    "tx_hash": "0xe32d761f7e1f674bd43125056645eb2d7bee08d1e1dff8cf0e72c97751ea344a",
+    "sender": "0x655cdce9c2ac6869129cb32d9f6cb9f18c727da0",
+    "receiver": "0x8e69f02de199df61b9fc4f737eca094bacd24055",
+    "amount_mnt": 50.0,
+    "ai_assessment": "This is likely a **regular user activity** or small transfer, as 50 MNT (worth roughly $40-60 USD at current market rates) is far below typical whale movement thresholds (often 10,000+ MNT) and is not a null-address or known contract interaction.",
+    "timestamp": "2026-05-23 02:06:25"
+  },
+  {
+    "id": 12,
+    "tx_hash": "0xbbc37bc347d7945606d5c13a965f8ce2d0d40297d0be1b6a6b9fc1b10e9fbbe0",
+    "sender": "0x80622c49403af3fd4cbd80c0bb508b12167fb193",
+    "receiver": "0x8e60b7b64b63cd56b18ebcecadcb79b04919286e",
+    "amount_mnt": 0.24077685460859014,
+    "ai_assessment": "This is **regular user activity** (or a minor transfer), as 0.24 MNT is worth less than a few dollars and falls far below the typical six-figure thresholds associated with whale movements, though the exact nature depends on whether the receiver is a known contract address.",
+    "timestamp": "2026-05-23 02:06:10"
+  },
+  {
+    "id": 11,
+    "tx_hash": "0x708fa9c0de06b4dedb1b4b9755d4258f8678064e4d7c76fc55a3959b0a338261",
+    "sender": "0x588846213a30fd36244e0ae0ebb2374516da836c",
+    "receiver": "0xd5dcf2aa0a33f4e9239abe666c79f05ed464a4ff",
+    "amount_mnt": 250.0,
+    "ai_assessment": "This is likely a contract interaction, as the receiver address `0xd5dcf2aa...` appears to be a known Mantle Bridge or staking contract, and the 250 MNT amount (~$250\u2013300) is far below typical whale thresholds for the Mantle Network.",
+    "timestamp": "2026-05-23 02:02:43"
+  },
+  {
+    "id": 10,
+    "tx_hash": "0x869697a449f2f0584862d7e6cc77d1f35fe2f117f42247dc96c47a74cb8b066b",
+    "sender": "0x2689dec7f57719c997268062b046cb0d016eb30a",
+    "receiver": "0x2346a8fbb862e58cb85c652a14cbe79c178fdfea",
+    "amount_mnt": 1.8796688338088774,
+    "ai_assessment": "This is likely **regular user activity** or a small contract interaction, as 1.88 MNT (~$1\u20132) is far below typical whale thresholds and more consistent with a casual transfer or gas fee payment.",
+    "timestamp": "2026-05-23 02:02:12"
+  }
+]
