@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 /* ── Types ─────────────────────────────────────────────── */
 
@@ -30,6 +30,10 @@ export default function Dashboard() {
   const [insights, setInsights] = useState<Insight[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [newIds, setNewIds] = useState<Set<number>>(new Set());
+
+  // Keep a ref to the set of known IDs so we can detect new arrivals
+  const seenIdsRef = useRef<Set<number>>(new Set());
 
   useEffect(() => {
     let cancelled = false;
@@ -39,11 +43,36 @@ export default function Dashboard() {
         const res = await fetch("/insights.json");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: Insight[] = await res.json();
-        if (!cancelled) {
-          setInsights(data);
-          setError(null);
-          setLoading(false);
+        if (cancelled) return;
+
+        // — detect brand-new cards that weren't in the previous fetch —
+        const incomingIds = new Set(data.map((d) => d.id));
+        const freshIds = new Set<number>();
+        for (const id of incomingIds) {
+          if (!seenIdsRef.current.has(id)) {
+            freshIds.add(id);
+          }
         }
+
+        // If there are new cards, mark them for animation
+        if (freshIds.size > 0) {
+          setNewIds(freshIds);
+          // Auto-dismiss the "new" status after animation completes
+          setTimeout(() => {
+            setNewIds((prev) => {
+              const next = new Set(prev);
+              for (const id of freshIds) next.delete(id);
+              return next;
+            });
+          }, 3500);
+        }
+
+        // Update the seen set
+        seenIdsRef.current = incomingIds;
+
+        setInsights(data);
+        setError(null);
+        setLoading(false);
       } catch (err) {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Failed to fetch");
@@ -113,55 +142,71 @@ export default function Dashboard() {
 
         {/* Insight cards */}
         {!loading &&
-          insights.map((insight) => (
-            <div
-              key={insight.id}
-              className="bg-zinc-950 border border-zinc-800 border-l-2 border-l-green-400 rounded-sm p-4 hover:bg-zinc-900/80 transition-colors"
-            >
-              {/* Top row: tx hash + timestamp */}
-              <div className="flex items-center justify-between text-xs mb-3">
-                <span className="text-green-400 tracking-wider">
-                  TX{" "}
-                  <span className="text-cyan-400">
-                    {truncateHash(insight.tx_hash)}
-                  </span>
-                </span>
-                <span className="text-zinc-600">{insight.timestamp}</span>
-              </div>
+          insights.map((insight) => {
+            const isNew = newIds.has(insight.id);
+            return (
+              <div
+                key={insight.id}
+                className={`rounded-sm p-4 transition-colors ${
+                  isNew
+                    ? "card-new bg-green-950/40 border border-green-400 border-l-4 border-l-green-300"
+                    : "bg-zinc-950 border border-zinc-800 border-l-2 border-l-green-400 hover:bg-zinc-900/80"
+                }`}
+              >
+                {/* "NEW" badge for animated cards */}
+                {isNew && (
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-block text-[10px] tracking-widest text-green-300 bg-green-900/60 px-2 py-0.5 rounded-sm animate-pulse">
+                      ● NEW INSIGHT
+                    </span>
+                  </div>
+                )}
 
-              {/* Details row */}
-              <div className="grid grid-cols-3 gap-4 text-xs mb-3">
-                <div>
-                  <span className="text-zinc-500 block">SENDER</span>
-                  <span className="text-cyan-400">
-                    {truncateAddress(insight.sender)}
+                {/* Top row: tx hash + timestamp */}
+                <div className="flex items-center justify-between text-xs mb-3">
+                  <span className="text-green-400 tracking-wider">
+                    TX{" "}
+                    <span className="text-cyan-400">
+                      {truncateHash(insight.tx_hash)}
+                    </span>
                   </span>
+                  <span className="text-zinc-600">{insight.timestamp}</span>
                 </div>
-                <div>
-                  <span className="text-zinc-500 block">RECEIVER</span>
-                  <span className="text-cyan-400">
-                    {truncateAddress(insight.receiver)}
-                  </span>
-                </div>
-                <div className="text-right">
-                  <span className="text-zinc-500 block">AMOUNT</span>
-                  <span className="text-green-400 font-bold">
-                    {formatMNT(insight.amount_mnt)} MNT
-                  </span>
-                </div>
-              </div>
 
-              {/* AI Assessment */}
-              <div className="border-t border-zinc-800 pt-3">
-                <span className="text-[10px] tracking-widest text-zinc-500 block mb-1">
-                  AI ASSESSMENT
-                </span>
-                <p className="text-sm text-white leading-relaxed">
-                  {insight.ai_assessment}
-                </p>
+                {/* Details row */}
+                <div className="grid grid-cols-3 gap-4 text-xs mb-3">
+                  <div>
+                    <span className="text-zinc-500 block">SENDER</span>
+                    <span className="text-cyan-400">
+                      {truncateAddress(insight.sender)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-zinc-500 block">RECEIVER</span>
+                    <span className="text-cyan-400">
+                      {truncateAddress(insight.receiver)}
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-zinc-500 block">AMOUNT</span>
+                    <span className="text-green-400 font-bold">
+                      {formatMNT(insight.amount_mnt)} MNT
+                    </span>
+                  </div>
+                </div>
+
+                {/* AI Assessment */}
+                <div className="border-t border-zinc-800 pt-3">
+                  <span className="text-[10px] tracking-widest text-zinc-500 block mb-1">
+                    AI ASSESSMENT
+                  </span>
+                  <p className="text-sm text-white leading-relaxed">
+                    {insight.ai_assessment}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
         {/* Live indicator */}
         {!loading && (

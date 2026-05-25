@@ -16,3 +16,43 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+
+/* ──────────────────────────────────────────────────────────
+ *  NEW INSIGHT CARD POPUP ANIMATION
+ *  Triggers when a freshly captured transaction appears
+ * ────────────────────────────────────────────────────────── */
+
+@keyframes card-popup {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.96);
+    max-height: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-color: rgba(74, 222, 128, 0.9);
+    box-shadow: 0 0 24px rgba(74, 222, 128, 0.25);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(4px) scale(1.01);
+    max-height: 500px;
+    border-color: rgba(74, 222, 128, 0.9);
+    box-shadow: 0 0 32px rgba(74, 222, 128, 0.35);
+  }
+  60% {
+    transform: translateY(-2px) scale(1);
+    border-color: rgba(74, 222, 128, 0.7);
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    border-color: rgba(74, 222, 128, 0.5);
+    box-shadow: 0 0 0 transparent;
+  }
+}
+
+.card-new {
+  animation: card-popup 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
