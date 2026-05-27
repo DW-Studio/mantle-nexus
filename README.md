@@ -10,7 +10,7 @@ Built for the Turing Test Hackathon.
 ## 🔗 Live Links & Hackathon Bounties
 
 - **Live Cyberpunk Dashboard:** [https://mantle-nexus-eight.vercel.app/] *(Optimized for both Desktop & Mobile)*
-- **Demo Video (3 Min Pitch):** [https://youtu.be/n0RVQ2NFhQ4]
+- **Demo Video :** [https://youtu.be/n0RVQ2NFhQ4]
 
 ### 🏆 Proof for "20 Project Deployment Award"
 Mantle-Nexus permanently stamps AI-generated transaction insights onto the Mantle Sepolia Testnet, fulfilling the exact requirement of "AI inference result written on-chain".
